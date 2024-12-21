@@ -5,6 +5,16 @@
 - 📫 How to reach me: \_jamjams\_ on discord
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: I used to play the violin
+## What I know
+### Languages
+- Java: it's the first real language I started with in Highschool
+- Python: been using it very on and off since Highschool, mainly only to learn it
+- C#/C++: Unity and College, doens't feel to disimilar to Java so it wasn't hard to translate everything over
+- GDScript: feels pretty good actually, though there's lots to learn
+### Editors
+- Unity: Started my Senior year of Highschool for out "Project Based Computer Science" course, I definetely overshot with the scope but still entertained my teacher
+- Unreal 4/5: Tried them when I heard that people were switching off Unity, didn't feel great but also didn't put in much effort to try
+- Godot: Felt real awkward at first because of the scene based programming, but has been working pretty well so far
 ---
 ## My Plans for the Future
 - WIP
