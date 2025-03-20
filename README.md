@@ -1,8 +1,8 @@
 # Hi there, call me James 👋
 ## The Short and Sweet
-- 🔭 I’m currently working on a small proof-of-concept of a puzzle game with a simple mechanic which changes gravity for only the player
-- 🌱 I’m currently learning Godot, and may decide on going back to Unity for 3D games
-- 📫 How to reach me: \_jamjams\_ on discord
+- 🔭 I'm currently working on getting some small ideas out into code to test the waters
+- 🌱 I’m currently learning and using Godot, but may decide on going back to Unity for 3D games
+- 📫 How to reach me: jamjams132 on discord
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: I used to play the violin
 ## What I know
@@ -15,21 +15,16 @@
 - Unity: Started my Senior year of Highschool for out "Project Based Computer Science" course, I definetely overshot with the scope but still entertained my teacher
 - Unreal 4/5: Tried them when I heard that people were switching off Unity, didn't feel great but also didn't put in much effort to try
 - Godot: Felt real awkward at first because of the scene based programming, but has been working pretty well so far
----
 ## My Plans for the Future
-- WIP
----
-## Off Topic Stuff About Me?
-### Music
-- My favorite artist lately has been Mori Calliope. Some noteable songs in no particular order are: Black Sheep, Cult Following, Overkill, Wanted Wasted, End of a Life, Last Days, Scuffed up Age, DONMAI.
-- Before her I was really into Teminite, who does more electrionic music than the rock/rap stuff Mori does
-- As a violinist, I was always drawn to the high energy and spectacle pieces. It was nice drawing in an audience for a few minutes, even if I was too shy to look at them until we finished.
-- My most memorable piece was the 3rd movement of Khachaturians Violin Concerto in D minor since it was my Solo for the basic competition my senior year of highschool. 18 minutes of nothing by showing off to a judge that seemingly didn't recognize it :/
-- It's hard to recommend old pieces, especially since the names are more like serial codes, but the one I'd say would be Brahms "Double Concerto in A Minor, Op. 102 for Violin, Cello and Orchestra: III. Vivace non troppo". Specifically performed by the Academy of St. Martain in the Fields.
-- Maybe I'll pick it up again one day
-### Games
-- Games I grew up with: Halo:Reach, Minecraft, Terraria (for ipod then xbox), Assassins Creed: Unity, Dishonored, Forza Horizon 2, Battlefield 1, Black Ops 2.
-- Games I've been playing recently: Valorant, Destiny 2, Breath of the Wild, Halo:MCC
-- Games I want to play: Nier, Rain World, Untitled Goose Game, Tears of the Kindgdom, Noita, Viewfinder, Outer Wild, Shady Knight, Neva, Nine Sols, Pacific Drive, Hyper Light Breaker
-### Anime/Shows
-- WIP
+### Projects
+- A puzzle 'platformer' that uses a throwable card to teleport around. Currently horribly inefficient and buggy :/
+- A pseudo-rhythm game which, in short, has the entities (player included) on screen produce the level music. Promising, but complicated.
+- A more story focused game around the concept of blindness; Literally, metaphorically, figuratively, etc..
+- A story regarding a somewhat angsty view on christianty, though more focused on the divine aspects.
+- A game with uncertain genre and form that involves clearing through building/structures as a 1 or 2 man army. Story/World are undetermined as there's so much I want for this one.
+### Life
+- Getting work isn't working, so I'll be heading back to college in the summer or fall semester of 2025. Unfortunately and ironically being a CS major didn't work, but Cybersecurity recently caught my eye so I'll be going into that for an associates degree.
+- Once that's done and I have an income I can finally realistically move out into an appartment.
+- Once I'm out, I do want these projects I have to be released and monetized.
+- If/When that takes off I'd really like to start some small team to get even more out and increase everything. Not sure how to start any of that right now, but that's years away at this point.
+- After that, I'm not sure.
