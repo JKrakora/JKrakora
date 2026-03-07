@@ -1,5 +1,0 @@
-# meta-name: [ENTER NAME]
-# meta-description: [ENTER DESCRIPTION]
-# meta-default: false
-# meta-space-indent: 4
-class_name _CLASS_ extends Node
