@@ -1,0 +1,110 @@
+extends Node
+
+@export var player_scene : String
+@export var levels : Array[String]
+
+@onready var UI = $UI
+@onready var level_holder = $"Level Holder"
+@onready var level_spawner = $"Level Spawner"
+@onready var player_holder = $"Player Holder"
+@onready var player_spawner = $"Player Spawner"
+
+func _ready() -> void:
+	Multiplayer.join_game.connect(load_into_lobby)
+	Multiplayer.host_leave_game.connect(close_lobby)
+	Multiplayer.client_leave_game.connect(leave_lobby)
+	
+	Multiplayer.player_connected.connect(_add_player)
+	Multiplayer.player_disconnected.connect(_remove_player)
+	
+	player_spawner.spawn_function = _spawn_function
+	player_spawner.add_spawnable_scene(player_scene)
+	
+	for level in levels:
+		level_spawner.add_spawnable_scene(level)
+	
+	UI.make_pregame_ready()
+
+
+func load_into_lobby() -> void:
+	UI.make_ingame_ready()
+	if not multiplayer.is_server():
+		return
+	
+	for peer in multiplayer.get_peers():
+		_add_player(peer)
+	
+	if not OS.has_feature("dedicated_server"):
+		_add_player(1)
+	
+	change_level(levels[index])
+
+
+func close_lobby() -> void:
+	UI.make_pregame_ready()
+	
+	for peer in multiplayer.get_peers():
+		_remove_player(peer)
+	_remove_player(1)
+	
+	change_level()
+
+
+func leave_lobby() -> void:
+	UI.make_pregame_ready()
+
+
+var index = 0
+func change_level(to_file := "") -> void:
+	if not multiplayer.is_server():
+		return
+	
+	for child in level_holder.get_children():
+		level_holder.remove_child(child)
+		child.queue_free()
+	
+	if to_file.is_empty():
+		return
+	
+	var level = load(to_file).instantiate()
+	level_holder.add_child(level)
+	
+	for player in player_holder.get_children():
+		_get_and_set_spawn_position(player)
+
+
+func _add_player(id: int) -> void:
+	if is_multiplayer_authority():
+		player_spawner.spawn(id)
+
+
+func _remove_player(id: int) -> void:
+	if player_holder.has_node(str(id)):
+		player_holder.get_node(str(id)).call_deferred("queue_free")
+
+
+func _spawn_function(id : int) -> Node:
+	var player = load(player_scene).instantiate()
+	player.name = str(id)
+	
+	player = _get_and_set_spawn_position(player)
+	player.set_multiplayer_authority(id)
+	
+	return player
+
+
+func _get_and_set_spawn_position(player) -> CharacterBody3D:
+	var spawn_point = _get_spawn_info()
+	
+	player.rotation.y = spawn_point.w + randf_range(0, 2 * PI)
+	player.position.x = spawn_point.x + randf_range(-5, 5)
+	player.position.y = spawn_point.y
+	player.position.z = spawn_point.z + randf_range(-5, 5)
+	
+	return player
+
+
+func _get_spawn_info() -> Vector4:
+	if level_holder.get_child_count() == 0:
+		return Vector4()
+	return level_holder.get_child(0).get_spawn_point()

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dthvsd78lwbu4"]
+
+[ext_resource type="Script" uid="uid://b1reccl4nl58s" path="res://Assets/Modules/Video Settings/Screen Mode Controller/screen_mode_controller.gd" id="1_kreur"]
+
+[node name="Screen Mode Controller" type="PanelContainer"]
+script = ExtResource("1_kreur")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Screen mode: "
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+layout_mode = 2
+
+[connection signal="item_selected" from="HBoxContainer/OptionButton" to="." method="set_screen_mode_to_index"]
