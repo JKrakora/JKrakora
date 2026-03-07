@@ -1,0 +1,25 @@
+[gd_scene load_steps=8 format=3 uid="uid://cvdtl0alsoedx"]
+
+[ext_resource type="PackedScene" uid="uid://bsn6b0jonwyb5" path="res://Scenes/Levels/~Base/Layers/World/World.tscn" id="1_u322d"]
+[ext_resource type="PackedScene" uid="uid://v826gc3ih4tk" path="res://Scenes/Levels/~Base/Layers/Phase/Phase.tscn" id="2_mhdqo"]
+[ext_resource type="PackedScene" uid="uid://dr0p7fdgowb8x" path="res://Scenes/Moveable/Player/Player.tscn" id="2_u322d"]
+[ext_resource type="PackedScene" uid="uid://dk76q85d37kxe" path="res://Scenes/Levels/~Base/Layers/Phase/Card/Phase Card.tscn" id="3_6700v"]
+[ext_resource type="PackedScene" uid="uid://dxi6ymi6dgvei" path="res://Scenes/Levels/~Base/Layers/Phase/Ring/Phase Ring.tscn" id="4_6ibb0"]
+[ext_resource type="PackedScene" uid="uid://bqyrp3u4nlcl6" path="res://Scenes/Levels/~Base/Layers/Bounce/Bounce.tscn" id="5_q1ycg"]
+[ext_resource type="PackedScene" uid="uid://behf5o8paklqo" path="res://Scenes/Levels/~Base/Layers/Slick/Slick.tscn" id="6_4nh8f"]
+
+[node name="Level" type="Node2D"]
+
+[node name="World" parent="." instance=ExtResource("1_u322d")]
+
+[node name="Phase" parent="." instance=ExtResource("2_mhdqo")]
+
+[node name="Phase Card" parent="." instance=ExtResource("3_6700v")]
+
+[node name="Phase Ring" parent="." instance=ExtResource("4_6ibb0")]
+
+[node name="Bounce" parent="." instance=ExtResource("5_q1ycg")]
+
+[node name="Slick" parent="." instance=ExtResource("6_4nh8f")]
+
+[node name="Player" parent="." instance=ExtResource("2_u322d")]

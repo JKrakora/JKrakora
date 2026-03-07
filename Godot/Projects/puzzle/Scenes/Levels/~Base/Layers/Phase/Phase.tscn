@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://v826gc3ih4tk"]
+
+[ext_resource type="TileSet" uid="uid://cm2ujp4c2eaop" path="res://Scenes/Levels/~Base/Layers/Phase/phase_tileset.tres" id="1_mm87p"]
+
+[node name="Phase" type="TileMapLayer"]
+tile_set = ExtResource("1_mm87p")

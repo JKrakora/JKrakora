@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk76q85d37kxe"]
+
+[ext_resource type="TileSet" uid="uid://t25h3k2h72rx" path="res://Scenes/Levels/~Base/Layers/Phase/Card/phase_card_tileset.tres" id="1_upveq"]
+
+[node name="Phase Card" type="TileMapLayer"]
+tile_set = ExtResource("1_upveq")
