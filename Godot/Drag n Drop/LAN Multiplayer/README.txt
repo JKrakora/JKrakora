@@ -1,3 +1,5 @@
+# Outdated, look in "addons" for a better Multiplayer setup
+
 To use:
 
 1. Make "multiplayer.gd" an Autoload named "Multiplayer"
