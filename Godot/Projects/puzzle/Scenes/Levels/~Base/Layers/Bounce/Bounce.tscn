@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqyrp3u4nlcl6"]
-
-[ext_resource type="TileSet" uid="uid://dj7g3mvpee46b" path="res://Scenes/Levels/~Base/Layers/Bounce/bounce_tileset.tres" id="1_6rv7u"]
-
-[node name="Bounce" type="TileMapLayer"]
-tile_set = ExtResource("1_6rv7u")

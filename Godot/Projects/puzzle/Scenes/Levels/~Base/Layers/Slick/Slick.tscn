@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://behf5o8paklqo"]
-
-[ext_resource type="TileSet" uid="uid://rxgvx4iqjos4" path="res://Scenes/Levels/~Base/Layers/Slick/slick_tileset.tres" id="1_haa0k"]
-
-[node name="Slick" type="TileMapLayer"]
-tile_set = ExtResource("1_haa0k")

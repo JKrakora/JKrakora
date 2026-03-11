@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxi6ymi6dgvei"]
-
-[ext_resource type="TileSet" uid="uid://c76fnjjlsj2di" path="res://Scenes/Levels/~Base/Layers/Phase/Ring/phase_ring_tileset.tres" id="1_hw03f"]
-
-[node name="Phase Ring" type="TileMapLayer"]
-tile_set = ExtResource("1_hw03f")

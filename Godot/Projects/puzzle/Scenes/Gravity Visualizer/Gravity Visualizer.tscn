@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://gjg8rwwpsn2a"]
-
-[ext_resource type="Texture2D" uid="uid://c1e26y4hivhtx" path="res://Scenes/Gravity Visualizer/arrow.png" id="1_61xfk"]
-[ext_resource type="Script" uid="uid://37w85ofo4lh5" path="res://Scenes/Gravity Visualizer/gravity_visualizer.gd" id="2_n4oxs"]
-
-[node name="Gravity Visualizer" type="Sprite2D"]
-texture = ExtResource("1_61xfk")
-flip_v = true
-script = ExtResource("2_n4oxs")
