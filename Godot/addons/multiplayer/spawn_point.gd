@@ -9,5 +9,5 @@ func get_info() -> Vector4:
 		global_position.x,
 		global_position.y,
 		global_position.z,
-		rotation.y,
+		global_rotation.y,
 	)
