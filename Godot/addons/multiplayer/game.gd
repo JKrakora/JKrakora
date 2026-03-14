@@ -71,7 +71,7 @@ func change_level(to_file := "") -> void:
 
 	level.reset_spawn_point_occupancy()
 	for player in player_holder.get_children():
-		player = _get_and_set_spawn_position(player)
+		player = _get_and_set_spawn_position(player, level)
 
 
 func _add_player(id: int) -> void:
@@ -94,8 +94,8 @@ func _spawn_function(id : int) -> Node:
 	return player
 
 
-func _get_and_set_spawn_position(player) -> CharacterBody3D:
-	var spawn_point = _get_spawn_info()
+func _get_and_set_spawn_position(player, level) -> CharacterBody3D:
+	var spawn_point = level.get_spawn_point()
 	
 	player.rotation.y = spawn_point.w
 	player.position.x = spawn_point.x
@@ -103,9 +103,3 @@ func _get_and_set_spawn_position(player) -> CharacterBody3D:
 	player.position.z = spawn_point.z
 	
 	return player
-
-
-func _get_spawn_info() -> Vector4:
-	if level_holder.get_child_count() == 0:
-		return Vector4()
-	return level_holder.get_child(0).get_spawn_point()
