@@ -1,7 +1,7 @@
 class_name SpawnPoint
 extends Node3D
 
-var time : float = 0
+var time : float = 3.0
 var assumed_unoccupied_time : float = 3.0
 
 func _process(delta: float) -> void:
