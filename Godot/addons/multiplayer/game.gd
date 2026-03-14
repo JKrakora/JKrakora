@@ -5,6 +5,7 @@ extends Node
 
 @onready var UI = $UI
 @onready var level_holder = $"Level Holder"
+var current_level : Level
 @onready var level_spawner = $"Level Spawner"
 @onready var player_holder = $"Player Holder"
 @onready var player_spawner = $"Player Spawner"
@@ -66,12 +67,12 @@ func change_level(to_file := "") -> void:
 	if to_file.is_empty():
 		return
 	
-	var level = load(to_file).instantiate()
-	level_holder.add_child(level)
+	current_level = load(to_file).instantiate()
+	level_holder.add_child(current_level)
 
-	level.reset_spawn_point_occupancy()
+	current_level.reset_spawn_point_occupancy()
 	for player in player_holder.get_children():
-		player = _get_and_set_spawn_position(player, level)
+		player = _get_and_set_spawn_position(player)
 
 
 func _add_player(id: int) -> void:
@@ -94,10 +95,8 @@ func _spawn_function(id : int) -> Node:
 	return player
 
 
-func _get_and_set_spawn_position(player, level = null) -> CharacterBody3D:
-	if not level:
-		level = level_holder.get_child(0)
-	var spawn_point = level.get_spawn_point()
+func _get_and_set_spawn_position(player) -> CharacterBody3D:
+	var spawn_point = current_level.get_spawn_point()
 	
 	player.rotation.y = spawn_point.w
 	player.position.x = spawn_point.x
