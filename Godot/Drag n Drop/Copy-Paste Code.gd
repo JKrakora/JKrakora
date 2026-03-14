@@ -1,9 +1,8 @@
 extends Node
 
 func _unhandled_input(event : InputEvent) -> void:
-	_handle_cursor_containment_with_alt(event)
-	## OR 
 	_handle_cursor_containment(event)
+	#_handle_cursor_containment_with_alt(event)
 
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 	    rotation_degrees.y -= event.relative.x * camera_sensitivity
