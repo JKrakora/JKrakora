@@ -8,9 +8,12 @@ func _ready() -> void:
 
 
 func get_spawn_point() -> Vector4:
+	var valid_points : Array[SpawnPoint]
 	for point in spawn_points:
 		if not point.is_occupied:
-			return point.get_info()
+			valid_points.append(point)
+	if valid_points:
+		return valid_points.pick_random().get_info()
 	return Vector4()
 
 
