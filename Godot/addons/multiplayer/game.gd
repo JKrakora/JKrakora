@@ -65,6 +65,7 @@ func change_level(to_file := "") -> void:
 		child.queue_free()
 	
 	if to_file.is_empty():
+		current_level = null
 		return
 	
 	current_level = load(to_file).instantiate()
