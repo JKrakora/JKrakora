@@ -94,7 +94,9 @@ func _spawn_function(id : int) -> Node:
 	return player
 
 
-func _get_and_set_spawn_position(player, level) -> CharacterBody3D:
+func _get_and_set_spawn_position(player, level = null) -> CharacterBody3D:
+	if not level:
+		level = level_holder.get_child(0)
 	var spawn_point = level.get_spawn_point()
 	
 	player.rotation.y = spawn_point.w
