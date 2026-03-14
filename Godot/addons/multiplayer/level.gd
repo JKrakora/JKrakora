@@ -17,6 +17,11 @@ func get_spawn_point() -> Vector4:
 	return Vector4()
 
 
+func reset_spawn_point_occupancy() -> void:
+	for point in spawn_points:
+		point.is_occupied = false
+
+
 func _recursive_search_for_spawn_points(parent : Node) -> void:
 	for child in parent.get_children():
 		if child is SpawnPoint:
