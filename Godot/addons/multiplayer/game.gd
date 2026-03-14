@@ -32,13 +32,13 @@ func load_into_lobby() -> void:
 	if not multiplayer.is_server():
 		return
 	
+	change_level(levels[index])
+	
 	for peer in multiplayer.get_peers():
 		_add_player(peer)
 	
 	if not OS.has_feature("dedicated_server"):
 		_add_player(1)
-	
-	change_level(levels[index])
 
 
 func close_lobby() -> void:
@@ -97,9 +97,7 @@ func _spawn_function(id : int) -> Node:
 
 
 func _get_and_set_spawn_position(player) -> CharacterBody3D:
-	var spawn_point = Vector4()
-	if current_level:
-		spawn_point = current_level.get_spawn_point()
+	var spawn_point = current_level.get_spawn_point()
 	
 	player.rotation.y = spawn_point.w
 	player.position.x = spawn_point.x
