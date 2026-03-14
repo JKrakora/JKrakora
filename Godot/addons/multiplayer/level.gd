@@ -9,7 +9,7 @@ func _ready() -> void:
 
 func get_spawn_point() -> Vector4:
 	for point in spawn_points:
-		if not point.is_occupied():
+		if not point.is_occupied:
 			return point.get_info()
 	return Vector4()
 
