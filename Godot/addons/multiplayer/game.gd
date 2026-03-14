@@ -96,10 +96,10 @@ func _spawn_function(id : int) -> Node:
 func _get_and_set_spawn_position(player) -> CharacterBody3D:
 	var spawn_point = _get_spawn_info()
 	
-	player.rotation.y = spawn_point.w + randf_range(0, 2 * PI)
-	player.position.x = spawn_point.x + randf_range(-5, 5)
+	player.rotation.y = spawn_point.w
+	player.position.x = spawn_point.x
 	player.position.y = spawn_point.y
-	player.position.z = spawn_point.z + randf_range(-5, 5)
+	player.position.z = spawn_point.z
 	
 	return player
 
