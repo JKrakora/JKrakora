@@ -3,10 +3,6 @@ extends Node3D
 
 var is_occupied : bool
 
-func _process(delta: float) -> void:
-	time += delta
-
-
 func get_info() -> Vector4:
 	is_occupied = true
 	return Vector4(
