@@ -77,7 +77,7 @@ func change_level(to_file := "") -> void:
 
 
 func _add_player(id: int) -> void:
-	if is_multiplayer_authority():
+	if multiplayer.is_server():
 		player_spawner.spawn(id)
 
 
