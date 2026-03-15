@@ -90,7 +90,8 @@ func _spawn_function(id : int) -> Node:
 	var player = load(player_scene).instantiate()
 	player.set_multiplayer_authority(id)
 	player.name = str(id)
-	player = _get_and_set_spawn_position(player)
+	if is_multiplayer_authority():
+		player = _get_and_set_spawn_position(player)
 	
 	return player
 
