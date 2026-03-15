@@ -1,10 +1,5 @@
 extends CenterContainer
 
-@onready var address = $VBoxContainer/PanelContainer/VBoxContainer/Address.text:
-	get: return address as String
-@onready var port = $VBoxContainer/PanelContainer/VBoxContainer/Port.text:
-	get: return port as int
-
 @onready var name_line = $VBoxContainer/PanelContainer/VBoxContainer/Name
 @onready var address_line = $VBoxContainer/PanelContainer/VBoxContainer/Address
 @onready var port_line = $VBoxContainer/PanelContainer/VBoxContainer/Port
@@ -20,8 +15,8 @@ func make_ingame_ready() -> void:
 	_set_visibility_of_components(false, false, false, false, false, true)
 
 
-func _set_visibility_of_components(name, address, port, host, join, leave) -> void:
-	name_line.visible = name
+func _set_visibility_of_components(given_name, address, port, host, join, leave) -> void:
+	name_line.visible = given_name
 	address_line.visible = address
 	port_line.visible = port
 	host_button.visible = host
@@ -30,11 +25,11 @@ func _set_visibility_of_components(name, address, port, host, join, leave) -> vo
 
 
 func _on_host_pressed() -> void:
-	Multiplayer.create_lobby(port)
+	Multiplayer.create_lobby(port_line.text as int)
 
 
 func _on_join_pressed() -> void:
-	Multiplayer.join_lobby(address, port)
+	Multiplayer.join_lobby(address_line.text as String, port_line.text as int)
 
 
 func _on_leave_pressed() -> void:
