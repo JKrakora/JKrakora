@@ -18,7 +18,6 @@ func _ready() -> void:
 	Multiplayer.player_connected.connect(_add_player)
 	Multiplayer.player_disconnected.connect(_remove_player)
 	
-	player_spawner.spawn_function = _spawn_function
 	player_spawner.add_spawnable_scene(player_scene)
 	
 	for level in levels:
@@ -77,22 +76,17 @@ func change_level(to_file := "") -> void:
 
 
 func _add_player(id: int) -> void:
-	if multiplayer.is_server():
-		player_spawner.spawn(id)
+	if not multiplayer.is_server():
+		return
+
+	var player = load(player_scene).instantiate()
+	player_holder.add_child(player)
+	_get_and_set_spawn_position(player)
 
 
 func _remove_player(id: int) -> void:
 	if player_holder.has_node(str(id)):
 		player_holder.get_node(str(id)).call_deferred("queue_free")
-
-
-func _spawn_function(id : int) -> Node:
-	var player = load(player_scene).instantiate()
-	player.set_multiplayer_authority(id)
-	player.name = str(id)
-	player = _get_and_set_spawn_position(player)
-	
-	return player
 
 
 func _get_and_set_spawn_position(player) -> CharacterBody3D:
