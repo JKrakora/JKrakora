@@ -69,8 +69,7 @@ func change_level(to_file := "") -> void:
 	
 	current_level = load(to_file).instantiate()
 	level_holder.add_child(current_level)
-
-	current_level.reset_spawn_point_occupancy()
+	
 	for player in player_holder.get_children():
 		player = _get_and_set_spawn_position(player)
 
