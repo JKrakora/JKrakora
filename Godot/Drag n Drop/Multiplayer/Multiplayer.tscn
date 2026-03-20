@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://myebsjjfnny8"]
+
+[ext_resource type="Script" uid="uid://b2h1illgx3h14" path="res://Multiplayer/multiplayer.gd" id="1_nv4ft"]
+[ext_resource type="PackedScene" uid="uid://bjg5r1akm3eb" path="res://Multiplayer/UI.tscn" id="4_v0cfr"]
+
+[node name="Multiplayer" type="Node" unique_id=1880155935]
+script = ExtResource("1_nv4ft")
+
+[node name="Level Holder" type="Node" parent="." unique_id=2082339369]
+
+[node name="Level Spawner" type="MultiplayerSpawner" parent="." unique_id=423044219]
+spawn_path = NodePath("../Level Holder")
+
+[node name="Player Holder" type="Node" parent="." unique_id=159834167]
+
+[node name="Player Spawner" type="MultiplayerSpawner" parent="." unique_id=1048713514]
+spawn_path = NodePath("../Player Holder")
+
+[node name="UI" parent="." unique_id=2063106944 instance=ExtResource("4_v0cfr")]
