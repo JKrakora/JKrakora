@@ -34,13 +34,13 @@ expand_to_text_length = true
 
 [node name="Address" type="LineEdit" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=492474415]
 layout_mode = 2
-text = "192.168.1.67"
+text = ""
 placeholder_text = "IP Address"
 expand_to_text_length = true
 
 [node name="Port" type="LineEdit" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=1894659653]
 layout_mode = 2
-text = "9999"
+text = ""
 placeholder_text = "Port"
 expand_to_text_length = true
 
