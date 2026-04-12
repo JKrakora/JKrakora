@@ -7,7 +7,7 @@ var current_state : State
 func init(user: Node) -> void:
 	for state in get_children():
 		state.user = user
-	change_state(current_state)
+	change_state(start_state)
 
 
 func change_state(new_state: State) -> void:
