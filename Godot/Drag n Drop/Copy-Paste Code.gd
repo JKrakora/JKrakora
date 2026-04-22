@@ -35,3 +35,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		$Camera3D.rotation_degrees.x -= event.relative.y * camera_sensitivity
 		$Camera3D.rotation_degrees.x = clampf($Camera3D.rotation_degrees.x, -89, 89)
 
+
+## For changing Resolution and Window mode
+func change_resolution(resolution: Vector2i) -> void:
+	Window.size = resolution
+func change_window_mode(mode: Window.Mode) -> void:
+	Window.mode = mode
