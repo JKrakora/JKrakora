@@ -37,6 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## For changing Resolution and Window mode
+## Some Resolutions being: 640x360(pixel art), 1920x1080 (Standard), 2560x1080 (Ultrawide)
 func change_resolution(resolution: Vector2i) -> void:
 	Window.size = resolution
 func change_window_mode(mode: Window.Mode) -> void:
