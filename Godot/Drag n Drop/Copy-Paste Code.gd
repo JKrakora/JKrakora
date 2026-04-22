@@ -14,6 +14,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## Camera Movement with Freeable Cursor containment
 ## Requires "free_cursor" InputEvent
+## May be fucked right now, too lazy to check after some edits
 var camera_sensitivity:= 0.1
 var is_cursor_being_freed := false
 func _unhandled_input(event: InputEvent) -> void:
