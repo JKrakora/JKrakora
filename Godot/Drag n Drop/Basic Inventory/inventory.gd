@@ -1,7 +1,7 @@
 class_name Inventory
 extends GridContainer
 
-@export var items : Array[ItemData]
+@export var items: Array[ItemData]
 var slots: Array[InventorySlot]
 @export var rows:= 1
 
