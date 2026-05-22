@@ -1,0 +1,52 @@
+class_name StateMachine
+extends Node
+
+@export var start_state: State
+var current_state : State
+
+func init(user: Node) -> void:
+	for state in get_children():
+		state.user = user
+	change_state(start_state)
+
+
+func change_state(new_state: State) -> void:
+	if not new_state:
+		return
+	
+	if current_state == new_state:
+		return
+	
+	if current_state:
+		print("Exiting: %s" % current_state.name)
+		current_state.exit()
+	current_state = new_state
+	print("Entering: %s" % current_state.name)
+	current_state.enter()
+
+
+func process_input(event: InputEvent) -> void:
+	if not current_state:
+		return
+	
+	var new_state = current_state.process_input(event)
+	if new_state:
+		change_state(new_state)
+
+
+func process_frame(delta: float) -> void:
+	if not current_state:
+		return
+	
+	var new_state = current_state.process_frame(delta)
+	if new_state:
+		change_state(new_state)
+
+
+func process_physics(delta: float) -> void:
+	if not current_state:
+		return
+	
+	var new_state = current_state.process_physics(delta)
+	if new_state:
+		change_state(new_state)
