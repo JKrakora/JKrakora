@@ -18,10 +18,10 @@ func change_state(new_state: State) -> void:
 		return
 	
 	if current_state:
-		print("Exiting: %s" % current_state.name)
+		#print("Exiting: %s" % current_state.name)
 		current_state.exit()
 	current_state = new_state
-	print("Entering: %s" % current_state.name)
+	#print("Entering: %s" % current_state.name)
 	current_state.enter()
 
 
