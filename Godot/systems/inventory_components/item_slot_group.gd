@@ -5,12 +5,6 @@ var slots: Array[ItemSlot]
 
 func _ready() -> void:
 	_collect_slot_children()
-	#set_all_slot_data([
-		#load("res://resources/items/red.tres"),
-		#load("res://resources/items/green.tres"),
-		#load("res://resources/items/blue.tres"),
-		#load("res://resources/items/yellow.tres"),
-	#])
 
 
 func set_all_slot_data(data_array: Array[ItemData]) -> void:
