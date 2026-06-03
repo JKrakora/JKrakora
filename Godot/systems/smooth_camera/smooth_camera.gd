@@ -1,9 +1,7 @@
 class_name SmoothCamera3D
 extends Camera3D
 
-@export var target: Node3D:
-	get:
-		return target if target else self
+@export var target: Node3D
 
 func _ready() -> void:
 	top_level = true
@@ -19,7 +17,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotation_degrees.y -= event.relative.x * sensitivity
-		target.rotation.y
+		if target: target.rotation.y = self.rotation.y
 		rotation_degrees.x -= event.relative.y * sensitivity
 		rotation_degrees.x = clampf(rotation_degrees.x, -89, 89)
 
