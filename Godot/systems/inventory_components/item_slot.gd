@@ -39,7 +39,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview.texture = item_data.image
 	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	preview.size = Vector2(32, 32)
-	set_drag_preview(preview)
+	set_drag_preview(preview) # Can be any control, not just a TextureRect
 	
 	return {
 		"ItemData": item_data,
