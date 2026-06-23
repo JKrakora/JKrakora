@@ -42,3 +42,29 @@ func change_resolution(resolution: Vector2i) -> void:
 	Window.size = resolution
 func change_window_mode(mode: Window.Mode) -> void:
 	Window.mode = mode
+
+
+var width = 50 ## X
+var height = 50 ## Y
+var length = 50 ## Z
+func get_seamless_xz_noise_3d(x: float, y: float, z: float, noise: FastNoiseLite) -> float:
+	var x_angle = (float(x) / float(width)) * TAU
+	var x_cos = cos(x_angle)
+	var x_sin = sin(x_angle)
+	
+	var z_angle = (float(z) / float(length)) * TAU
+	var z_cos = cos(z_angle)
+	var z_sin = sin(z_angle)
+	
+	var height_step = float(y) * 0.2 ## default: 0.2
+	var base_value = noise.get_noise_3d(
+		x_cos + z_sin,
+		x_sin + height_step,
+		z_cos# + height_step ## idek what this was here for originally, but results look better without it soooo
+	)
+	
+	var height_bias:= 0.35 ## default: 0.35
+	var height_gradient = float(y) / float(height)
+	var final_value = base_value - (height_gradient - height_bias)
+	
+	return final_value ## > 0.0 as a threshold gives decent enough results
