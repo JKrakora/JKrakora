@@ -44,24 +44,45 @@ func change_window_mode(mode: Window.Mode) -> void:
 	Window.mode = mode
 
 
-func get_seamless_xz_noise_3d(coordinate: Vector3, world_size: Vector3i, noise: FastNoiseLite) -> float:
-	var x_angle = (float(coordinate.x) / float(world_size.x)) * TAU
-	var x_cos = cos(x_angle)
-	var x_sin = sin(x_angle)
+## Creates 3d voxel data for terrain that loops in the X and Z directions, but 
+## not Y. This is typically done by generating 5D noise, but this works by 
+## mapping each X and Z value onto a circle and going from there.
+## @param:normalize forces the value range to [-1,1], NOT [0,1].
+## @param:height_step_mult changes how long features appear vertically, lower mult makes pillars.
+## @param:height_bias changes where the bulk of mass is on the y-level, lower bias means lower average.
+func get_seamless_xz_noise_3d(noise: FastNoiseLite, normalize:= false, height_step_mult:= 0.2, height_bias:= 0.35) -> PackedFloat32Array:
+	var data: PackedFloat32Array= []
+	data.resize(WORLD_DIMENSIONS.x * WORLD_DIMENSIONS.y * WORLD_DIMENSIONS.z)
+	for x in range(WORLD_DIMENSIONS.x):
+		for y in range(WORLD_DIMENSIONS.y):
+			for z in range(WORLD_DIMENSIONS.z):
+				var x_angle = x * TAU / WORLD_DIMENSIONS.x
+				var x_cos = cos(x_angle)
+				var x_sin = sin(x_angle)
+				var z_angle = z * TAU / WORLD_DIMENSIONS.z
+				var z_cos = cos(z_angle)
+				var z_sin = sin(z_angle)
+				var height_step = y * height_step_mult
+				var base_value = noise.get_noise_3d(
+					x_cos + z_sin,
+					x_sin + height_step,
+					z_cos# + height_step ## idek what this was here for originally, but results look better without it
+				)
+				var height_gradient = float(y) / WORLD_DIMENSIONS.y
+				var final_value = base_value - (height_gradient - height_bias)
+				data[get_index_from_coord(x,y,z)] = final_value
 	
-	var z_angle = (float(coordinate.z) / float(world_size.z)) * TAU
-	var z_cos = cos(z_angle)
-	var z_sin = sin(z_angle)
+	if normalize:
+		var max_val = -INF
+		var min_val = INF
+		for value in data:
+			if value > max_val:
+				max_val = value
+			elif value < min_val:
+				min_val = value
+		
+		var normalized_range = max_val - min_val
+		for index in range(data.size()):
+			data[index] = 2 * ((data[index] - min_val) / normalized_range) - 1
 	
-	var height_step = float(coordinate.y) * 0.2 ## default: 0.2
-	var base_value = noise.get_noise_3d(
-		x_cos + z_sin,
-		x_sin + height_step,
-		z_cos# + height_step ## idek what this was here for originally, but results look better without it soooo
-	)
-	
-	var height_bias:= 0.35 ## default: 0.35
-	var height_gradient = float(coordinate.y) / float(world_size.y)
-	var final_value = base_value - (height_gradient - height_bias)
-	
-	return final_value ## > 0.0 as a threshold gives decent enough results
+	return data
