@@ -44,19 +44,16 @@ func change_window_mode(mode: Window.Mode) -> void:
 	Window.mode = mode
 
 
-var width = 50 ## X
-var height = 50 ## Y
-var length = 50 ## Z
-func get_seamless_xz_noise_3d(x: float, y: float, z: float, noise: FastNoiseLite) -> float:
-	var x_angle = (float(x) / float(width)) * TAU
+func get_seamless_xz_noise_3d(coordinate: Vector3, world_size: Vector3i, noise: FastNoiseLite) -> float:
+	var x_angle = (float(coordinate.x) / float(world_size.x)) * TAU
 	var x_cos = cos(x_angle)
 	var x_sin = sin(x_angle)
 	
-	var z_angle = (float(z) / float(length)) * TAU
+	var z_angle = (float(coordinate.z) / float(world_size.z)) * TAU
 	var z_cos = cos(z_angle)
 	var z_sin = sin(z_angle)
 	
-	var height_step = float(y) * 0.2 ## default: 0.2
+	var height_step = float(coordinate.y) * 0.2 ## default: 0.2
 	var base_value = noise.get_noise_3d(
 		x_cos + z_sin,
 		x_sin + height_step,
@@ -64,7 +61,7 @@ func get_seamless_xz_noise_3d(x: float, y: float, z: float, noise: FastNoiseLite
 	)
 	
 	var height_bias:= 0.35 ## default: 0.35
-	var height_gradient = float(y) / float(height)
+	var height_gradient = float(coordinate.y) / float(world_size.y)
 	var final_value = base_value - (height_gradient - height_bias)
 	
 	return final_value ## > 0.0 as a threshold gives decent enough results
