@@ -44,45 +44,42 @@ func change_window_mode(mode: Window.Mode) -> void:
 	Window.mode = mode
 
 
-## Creates 3d voxel data for terrain that loops in the X and Z directions, but 
-## not Y. This is typically done by generating 5D noise, but this works by 
-## mapping each X and Z value onto a circle and going from there.
-## @param:normalize forces the value range to [-1,1], NOT [0,1].
-## @param:height_step_mult changes how long features appear vertically, lower mult makes pillars.
-## @param:height_bias changes where the bulk of mass is on the y-level, lower bias means lower average.
-func get_seamless_xz_noise_3d(noise: FastNoiseLite, normalize:= false, height_step_mult:= 0.2, height_bias:= 0.35) -> PackedFloat32Array:
+## Creates a Flat-3D array of 'voxel data' which loops on X and Z but not Y.
+## Typically done by creating and sampling 5D noise, this works by mapping
+## X and Z to a circle while keeping Y linear.
+## @param:noise should be setup beforehand.
+## @param:size is the effective world size.
+## @param:normalize forces the data range to be [-1,1].
+## @param:height_step effectively changes how vertically tall features are; 
+## Lower makes pillars, too high makes weird floating plate formations.
+## @param:height_bias changes where the bulk of the mass is vertically.
+func get_seamless_xz_noise_3d(noise: FastNoiseLite, size: Vector3i, normalize:= false, height_step:= 0.2, height_bias:= 0.35) -> PackedFloat32Array:
+	var max_value = -INF
+	var min_value = INF
 	var data: PackedFloat32Array= []
-	data.resize(WORLD_DIMENSIONS.x * WORLD_DIMENSIONS.y * WORLD_DIMENSIONS.z)
-	for x in range(WORLD_DIMENSIONS.x):
-		for y in range(WORLD_DIMENSIONS.y):
-			for z in range(WORLD_DIMENSIONS.z):
-				var x_angle = x * TAU / WORLD_DIMENSIONS.x
-				var x_cos = cos(x_angle)
-				var x_sin = sin(x_angle)
-				var z_angle = z * TAU / WORLD_DIMENSIONS.z
-				var z_cos = cos(z_angle)
-				var z_sin = sin(z_angle)
-				var height_step = y * height_step_mult
+	data.resize(size.x * size.y * size.z)
+	for x in range(size.x):
+		for y in range(size.y):
+			for z in range(size.z):
+				var x_angle = x * TAU / size.x
+				var z_angle = z * TAU / size.z
 				var base_value = noise.get_noise_3d(
-					x_cos + z_sin,
-					x_sin + height_step,
-					z_cos# + height_step ## idek what this was here for originally, but results look better without it
-				)
-				var height_gradient = float(y) / WORLD_DIMENSIONS.y
-				var final_value = base_value - (height_gradient - height_bias)
+					cos(x_angle) + sin(z_angle), 
+					sin(x_angle) + (y * height_step), 
+					cos(z_angle))
+				var final_value = base_value - ((float(y) / size.y) - height_bias)
 				data[get_index_from_coord(x,y,z)] = final_value
-	
+
+				# Best to collect here even to save another pass.
+				if final_value > max_value:
+					max_value = final_value
+				elif final_value < min_value:
+					min_value = final_value
+
+	# Unlike typical normalization, this makes the range [-1, 1].
 	if normalize:
-		var max_val = -INF
-		var min_val = INF
-		for value in data:
-			if value > max_val:
-				max_val = value
-			elif value < min_val:
-				min_val = value
-		
-		var normalized_range = max_val - min_val
+		var normalized_range = max_value - min_value
 		for index in range(data.size()):
-			data[index] = 2 * ((data[index] - min_val) / normalized_range) - 1
+			data[index] = 2 * ((data[index] - min_value) / normalized_range) - 1
 	
 	return data
