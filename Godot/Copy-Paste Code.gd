@@ -68,14 +68,14 @@ func get_seamless_xz_noise_3d(noise: FastNoiseLite, size: Vector3i, normalize:= 
 					sin(x_angle) + (y * height_step), 
 					cos(z_angle))
 				var final_value = base_value - ((float(y) / size.y) - height_bias)
-				data[get_index_from_coord(x,y,z)] = final_value
-
+				data[x + (z * size.x) + (y * size.x * size.z)] = final_value
+				
 				# Best to collect here even to save another pass.
 				if final_value > max_value:
 					max_value = final_value
 				elif final_value < min_value:
 					min_value = final_value
-
+	
 	# Unlike typical normalization, this makes the range [-1, 1].
 	if normalize:
 		var normalized_range = max_value - min_value
