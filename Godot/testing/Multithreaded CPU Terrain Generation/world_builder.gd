@@ -478,7 +478,10 @@ func get_surface_array(chunk_coord: Vector2i) -> Array:
 					corners[neighbor] = get_corner(chunk_coord, current_coord, neighbor)
 					if corners[neighbor].w < isolevel:
 						cube_index |= int(pow(2, neighbor))
-				
+
+				#if cube_index == 0:
+					#continue
+
 				var vertex_list: Array[Vector3]= []
 				vertex_list.resize(12)
 				for edge in range(12):
