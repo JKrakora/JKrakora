@@ -357,7 +357,7 @@ var noise:= Noise4D.new()
 
 func _ready() -> void:
 	world_size_logical = world_chunk_count * chunk_size_logical
-	world_size_physical = world_size_physical * voxel_size_physical
+	world_size_physical = world_size_logical * voxel_size_physical
 	chunk_size_physical = chunk_size_logical * voxel_size_physical
 	
 	chunk_atlas.resize(world_chunk_count.x * world_chunk_count.z)
@@ -535,7 +535,7 @@ func get_corner(chunk_coord: Vector2i, local_voxel_coord: Vector3i, neighbor: in
 		7: additive = Vector3i(0, 1, 1)
 	
 	var corner_coord = (local_voxel_coord + additive) as Vector3
-	var global_coord = Vector3(chunk_coord.x, 0, chunk_coord.y) * chunk_size_logical + corner_coord
+	var global_coord = Vector3(chunk_coord.x % world_chunk_count.x, 0, chunk_coord.y % world_chunk_count.z) * chunk_size_logical + corner_coord
 	var theta_x = TAU * global_coord.x / world_size_logical.x
 	var theta_z = TAU * global_coord.z / world_size_logical.z
 	var torus_coord:= Vector4(

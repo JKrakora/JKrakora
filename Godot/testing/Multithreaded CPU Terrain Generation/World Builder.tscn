@@ -5,10 +5,13 @@
 
 [node name="World Builder" type="Node3D" unique_id=159457353 node_paths=PackedStringArray("player")]
 script = ExtResource("1_dp33k")
+isolevel = 0.5
 player = NodePath("Test Mover")
 max_add_count_per_tick = 10
 max_remove_count_per_tick = 10
 world_chunk_count = Vector3i(50, 1, 50)
+chunk_unload_radius = 15
+max_mesh_thread_count = 20
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=457642475]
 transform = Transform3D(-0.74542844, 0.4788686, -0.4637039, -2.0087036e-08, 0.6956403, 0.7183901, 0.6665856, 0.5355086, -0.51855016, 0, 0, 0)
@@ -18,5 +21,4 @@ transform = Transform3D(-0.74542844, 0.4788686, -0.4637039, -2.0087036e-08, 0.69
 [node name="Test Mover" type="Node3D" parent="." unique_id=1524304102]
 script = ExtResource("2_bsr6p")
 direction = Vector3(1, 0, -1)
-rotation_speed = 0.0
-speed = 0.0
+speed = 15.0
