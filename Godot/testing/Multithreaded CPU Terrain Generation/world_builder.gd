@@ -448,7 +448,6 @@ func check_mesh_threads() -> void:
 				var array_mesh = ArrayMesh.new()
 				if surface_array[Mesh.ARRAY_VERTEX].size() > 0:
 					array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
-				
 				var atlas_coord = get_atlas_coord(mesh_threads[index].coord)
 				var atlas_index = get_atlas_index(atlas_coord)
 				chunk_atlas[atlas_index].mesh = array_mesh
@@ -534,19 +533,25 @@ func get_corner(chunk_coord: Vector2i, local_voxel_coord: Vector3i, neighbor: in
 		6: additive = Vector3i(1, 1, 1)
 		7: additive = Vector3i(0, 1, 1)
 	
-	var corner_coord = (local_voxel_coord + additive) as Vector3
-	var global_coord = Vector3(chunk_coord.x % world_chunk_count.x, 0, chunk_coord.y % world_chunk_count.z) * chunk_size_logical + corner_coord
+	var corner_coord = local_voxel_coord + additive
+	var global_coord = Vector3i(chunk_coord.x, 0, chunk_coord.y) * chunk_size_logical + corner_coord
+	global_coord.x %= world_size_logical.x
+	#global_coord.y %= world_size_logical.y
+	global_coord.z %= world_size_logical.z
 	var theta_x = TAU * global_coord.x / world_size_logical.x
 	var theta_z = TAU * global_coord.z / world_size_logical.z
+	
+	var DEBUG_RADII: float = 50.0
+	
 	var torus_coord:= Vector4(
-			cos(theta_x),
-			sin(theta_x),
-			cos(theta_z),
-			sin(theta_z)
+			cos(theta_x) * DEBUG_RADII,
+			sin(theta_x) * DEBUG_RADII,
+			cos(theta_z) * DEBUG_RADII,
+			sin(theta_z) * DEBUG_RADII
 	)
 	var value: float= noise.get_noise_4dv(torus_coord)
 	value -= (float(global_coord.y) / world_size_logical.y) * 2.0 - 1.0
-	local_voxel_coord *= voxel_size_physical
+	corner_coord *= voxel_size_physical
 	return Vector4(corner_coord.x, corner_coord.y, corner_coord.z, value)
 
 
@@ -585,6 +590,7 @@ func check_add_queue() -> void:
 		if active_chunks.has(coord):
 			continue
 		
+		#print("adding %s of %s" % [counter, max_add_count_per_tick])
 		var data = get_chunk_data(coord)
 		var chunk = CHUNK_SCENE.instantiate()
 		chunk.init(data)
@@ -634,6 +640,7 @@ func check_remove_queue() -> void:
 		if not is_instance_valid(chunk):
 			continue
 		
+		#print("removing %s of %s" % [counter, max_remove_count_per_tick])
 		## save data
 		active_chunks.erase(coord)
 		chunk.queue_free()
