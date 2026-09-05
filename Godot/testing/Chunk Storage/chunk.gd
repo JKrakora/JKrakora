@@ -12,4 +12,3 @@ func set_data_raw(data: Array[float], chunk_voxel_count: int) -> void:
 	_data = ChunkData.new()
 	_data.voxel_values = data
 	_data.edge_voxel_count = chunk_voxel_count
-	

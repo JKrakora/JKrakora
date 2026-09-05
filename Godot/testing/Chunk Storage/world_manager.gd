@@ -1,9 +1,9 @@
 extends Node3D
 
 @export var world_chunk_count:= Vector3i(1, 1, 1)
-@export var chunk_voxel_count: int= 2
+@export var chunk_voxel_count: int= 8
 var world_size_logical: Vector3i
-var chunk_atlas: Dictionary[Vector3i, Chunk]
+var chunk_atlas: Dictionary[Vector3i, ChunkData]
 
 func _ready() -> void:
 	_fill_atlas()
@@ -15,65 +15,79 @@ func _fill_atlas() -> void:
 	for cx in range(world_chunk_count.x):
 		for cy in range(world_chunk_count.y):
 			for cz in range(world_chunk_count.z):
-				var chunk_data = ChunkData.new()
+				var data = ChunkData.new()
 				
-				var data: Array[float] = []
-				data.resize(chunk_voxel_count ** 3)
+				var densities: Array[float] = []
+				densities.resize(chunk_voxel_count ** 3)
 				var index = 0
 				for x in range(chunk_voxel_count):
 					for y in range(chunk_voxel_count):
 						for z in range(chunk_voxel_count):
-							data[index] = index
+							densities[index] = index
 							index += 1
-				chunk_data.voxel_values = data
 				
-				var chunk = Chunk.new()
-				chunk.data = chunk_data
-				chunk.voxel_count = chunk_voxel_count
-				chunk_atlas[Vector3i(cx, cy, cx)] = chunk
+				data.voxel_densities = densities
+				data.edge_voxel_count = chunk_voxel_count
+				chunk_atlas[Vector3i(cx, cy, cz)] = data
 
 
-func get_chunk_data(chunk_coord: Vector3i, skirted:= true) -> Array:
-	if not skirted:
-		return chunk_atlas[chunk_coord].data.voxel_values
+func get_chunk_data_for_meshing(coord: Vector3i) -> PackedFloat32Array:
+	var data = []
+	data.resize((chunk_voxel_count + 1) ** 3)
 	
-	var values = []
+	var current = get_atlas_chunk(coord) ## of (0, 0, 0)
+	var z_face = current.get_z_face() ## of (0, 0, 1)
+	var x_face = current.get_x_face() ## of (1, 0, 0)
+	var xz_edge = current.get_xz_edge() ## of (1, 0, 1)
 	
-	for i in range(chunk_voxel_count):
-		for j in range(chunk_voxel_count):
-			for r in range(chunk_voxel_count):
-				values.append(_red(chunk_coord, r, j, i))
-			values.append(_orange(chunk_coord, j, i))
-		for y in range(chunk_voxel_count):
-			values.append(_yellow(chunk_coord, y, i))
-		values.append(_lime(chunk_coord, i))
-	for i in range(chunk_voxel_count):
-		for g in range(chunk_voxel_count):
-			values.append(_green(chunk_coord, g, i))
-		values.append(_blue(chunk_coord, i))
-	for i in range(chunk_voxel_count):
-		values.append(_indigo(chunk_coord, i))
-	values.append(_purple(chunk_coord))
+	var y_face = current.get_y_face() ## of (0, 1, 0)
+	var yz_edge = current.get_yz_edge() ## of (0, 1, 1)
 	
-	return values
+	var xy_edge = current.get_xy_edge() ## of (1, 1, 0)
+	var xyz_corner = current.get_xyz_corner() ## of (1, 1, 1)
+	
+	var indices = [0, 0, 0, 0, 0, 0, 0, 0]
+	#indices.resize(8)
+	
+	## Look...this is a fucking mess...but I needed a way to interweave
+	## neighboring chunk densities since I'm using marching cubes and it 
+	## requires "N + 1". In this case the "+ 1" is part of neighboring 
+	## chunks. They're labeled and all, but "a-g" don't mean anything and
+	## the colors only make sense with my schizo drawings. But it works.
+	for a in range(chunk_voxel_count):
+		for b in range(chunk_voxel_count):
+			for c in range(chunk_voxel_count):
+				data[indices[0]] = current.voxel_densities[indices[1]] ## Red
+				indices[0] += 1
+				indices[1] += 1
+			data[indices[0]] = z_face[indices[2]]  ## Orange
+			indices[0] += 1
+			indices[2] += 1
+		for d in range(chunk_voxel_count):
+			data[indices[0]] = x_face[indices[3]] ## Yellow
+			indices[0] += 1
+			indices[3] += 1
+		data[indices[0]] = xz_edge[indices[4]] ## Lime
+		indices[0] += 1
+		indices[4] += 1
+	for e in range(chunk_voxel_count):
+		for f in range(chunk_voxel_count):
+			data[indices[0]] = y_face[indices[5]] ## Green
+			indices[0] += 1
+			indices[5] += 1
+		data[indices[0]] = yz_edge[indices[6]] ## Blue
+		indices[0] += 1
+		indices[6] += 1
+	for g in range(chunk_voxel_count):
+		data[indices[0]] = xy_edge[indices[7]] ## Indigo
+		indices[0] += 1
+		indices[7] += 1
+	data[indices[0]] = xyz_corner[0] ## Purple
+	
+	return PackedFloat32Array(data)
 
-
-func _red(coord: Vector3i, r: int, j: int, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(0, 0, 0))].get_voxel_value(r + (chunk_voxel_count * j) + (chunk_voxel_count ** 2 * i))
-func _orange(coord: Vector3i, j: int, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(0, 0, 1))].get_voxel_value(j * chunk_voxel_count) + (chunk_voxel_count ** 2 * i)
-func _yellow(coord: Vector3i, y: int, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(1, 0, 0))].get_voxel_value(chunk_voxel_count ** 2 * i + y)
-func _lime(coord: Vector3i, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(1, 0, 1))].get_voxel_value(chunk_voxel_count ** 2 * i)
-func _green(coord: Vector3i, g: int, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(0, 1, 0))].get_voxel_value(g + (chunk_voxel_count * i))
-func _blue(coord: Vector3i, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(0, 1, 1))].get_voxel_value(i * chunk_voxel_count)
-func _indigo(coord: Vector3i, i: int) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(1, 1, 0))].get_voxel_value(i)
-func _purple(coord: Vector3i) -> float:
-	return chunk_atlas[get_atlas_coord(coord + Vector3i(1, 1, 1))].get_voxel_value(0)
+func get_atlas_chunk(coord: Vector3i) -> ChunkData:
+	return chunk_atlas[get_atlas_coord(coord)]
 
 
 func get_atlas_coord(coord: Vector3i) -> Vector3i:
