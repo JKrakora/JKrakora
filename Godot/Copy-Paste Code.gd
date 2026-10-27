@@ -83,3 +83,30 @@ func get_seamless_xz_noise_3d(noise: FastNoiseLite, size: Vector3i, normalize:= 
 			data[index] = 2 * ((data[index] - min_value) / normalized_range) - 1
 	
 	return data
+
+
+func get_input_keyname(action: StringName) -> String:
+	if not InputMap.has_action(action):
+		return "null"
+	
+	var events = InputMap.action_get_events(action)
+	if events.is_empty():
+		return "Unbound"
+	
+	var binds: Array[String]= []
+	for event in events:
+		var readable: String
+		
+		if event is InputEventKey:
+			readable = event.as_text_physical_keycode()
+		elif event is InputEventMouseButton:
+			readable = event.as_text()
+			readable = readable.replace("Left Mouse Button", "LMB")
+			readable = readable.replace("Middle Mouse Button", "MMB")
+			readable = readable.replace("Right Mouse Button", "RMB")
+			readable = readable.replace("Mouse Thumb Button ", "MTB-")
+		else:
+			readable = event.as_text()
+		binds.append(readable)
+	
+	return "[%s]" % ("/".join(binds))
