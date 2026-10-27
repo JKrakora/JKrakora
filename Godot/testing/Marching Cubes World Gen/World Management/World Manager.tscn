@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dm7s4gl8rvbsg"]
+
+[ext_resource type="Script" uid="uid://d143weksur3yl" path="res://testing/World/World Management/world_manager.gd" id="1_ehwe8"]
+[ext_resource type="Texture2D" uid="uid://c371xwfb5xqyh" path="res://assets/icon.svg" id="2_q2qu0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_afb0s"]
+albedo_texture = ExtResource("2_q2qu0")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_s8xio"]
+
+[node name="WorldManager" type="Node" unique_id=1676267178 node_paths=PackedStringArray("player")]
+script = ExtResource("1_ehwe8")
+player = NodePath("Test Mover")
+max_adds_per_tick = 8
+chunk_load_radius = 6
+
+[node name="Chunk Holder" type="Node3D" parent="." unique_id=62953520]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=554349493]
+transform = Transform3D(0.85885346, 0.3311863, -0.390751, 0, 0.76285577, 0.6465687, 0.51222134, -0.5553078, 0.6551813, 0, 0, 0)
+
+[node name="Test Mover" type="Node3D" parent="." unique_id=1822154378]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=619358626]
+material_override = SubResource("StandardMaterial3D_afb0s")
+mesh = SubResource("BoxMesh_s8xio")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=36373857]
+material_override = SubResource("StandardMaterial3D_afb0s")
+mesh = SubResource("BoxMesh_s8xio")

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b7j00kfejtkpo"]
+
+[ext_resource type="Script" uid="uid://bt50t8flp2oro" path="res://testing/World/Water Testing/water_test.gd" id="1_30q5c"]
+[ext_resource type="Texture2D" uid="uid://b3yuftputtixx" path="res://assets/mine/PNG/Blue.png" id="2_cwh1o"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_s8xio"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_s8xio"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy0an"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.78431374)
+albedo_texture = ExtResource("2_cwh1o")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fbsom"]
+
+[node name="WaterTest" type="Node3D" unique_id=1504013434]
+script = ExtResource("1_30q5c")
+
+[node name="Terrain" type="MeshInstance3D" parent="." unique_id=1487436145]
+mesh = SubResource("ArrayMesh_s8xio")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1598076314]
+transform = Transform3D(0.6982502, 0.5038307, -0.50852865, 0, 0.71038055, 0.7038178, 0.7158538, -0.4914409, 0.49602336, 0, 0, 0)
+
+[node name="Reference" type="MeshInstance3D" parent="." unique_id=1465090815]
+mesh = SubResource("BoxMesh_s8xio")
+
+[node name="Water" type="MeshInstance3D" parent="." unique_id=1176531267]
+material_override = SubResource("StandardMaterial3D_cy0an")
+mesh = SubResource("ArrayMesh_fbsom")

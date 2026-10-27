@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ny8nhsikuy4g"]
+
+[ext_resource type="Script" uid="uid://kl8ju33vms7g" path="res://testing/World/World Management/chunk.gd" id="1_jl3ls"]
+
+[node name="Chunk" type="Node3D" unique_id=14462549]
+script = ExtResource("1_jl3ls")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1677089652]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=64613455]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=130301063]
